@@ -1,0 +1,161 @@
+/* ════════════════════════════════════════════════
+   ShopAdmin Storefront — 모션 & 인터랙션 레이어
+   (레이아웃·색상은 인라인 스타일, 모션은 여기서)
+   ════════════════════════════════════════════════ */
+
+.sh-root {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.sh-root :focus-visible {
+  outline: 2px solid #1a1917;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.sh-root a { color: inherit; text-decoration: none; }
+.sh-root button { font-family: inherit; }
+
+/* ── 키프레임 ─────────────────────────────── */
+@keyframes shFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes shFadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes shMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes shPop {
+  0% { transform: scale(1); } 40% { transform: scale(1.4); } 100% { transform: scale(1); }
+}
+@keyframes shDrawer {
+  from { transform: translateX(100%); } to { transform: none; }
+}
+@keyframes shFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+@keyframes shCheck {
+  0%  { transform: scale(0.4); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100%{ transform: scale(1); opacity: 1; }
+}
+
+/* ── 페이지 로드: 히어로 스태거 ──────────────── */
+.sh-fadeup {
+  opacity: 0;
+  animation: shFadeUp 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+/* ── 스크롤 리빌 (Reveal.jsx) ────────────────── */
+.sh-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.sh-reveal.sh-in { opacity: 1; transform: none; }
+
+/* ── 마퀴 스트립 ─────────────────────────────── */
+.sh-marquee { overflow: hidden; }
+.sh-marquee-track {
+  display: flex; width: max-content;
+  animation: shMarquee 30s linear infinite;
+}
+.sh-marquee:hover .sh-marquee-track { animation-play-state: paused; }
+
+/* ── 상품 카드 ───────────────────────────────── */
+.sh-card { display: block; }
+.sh-card .sh-tile-emoji {
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.sh-card:hover .sh-tile-emoji { transform: scale(1.1) rotate(-2deg); }
+.sh-card .sh-tile {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.sh-card:hover .sh-tile {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(26, 25, 23, 0.1);
+}
+.sh-card .sh-quick {
+  transform: translateY(110%);
+  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.sh-card:hover .sh-quick { transform: none; }
+
+/* ── 버튼 마이크로 인터랙션 ───────────────────── */
+.sh-btn { transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease; }
+.sh-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(26, 25, 23, 0.14); }
+.sh-btn:active:not(:disabled) { transform: translateY(0); box-shadow: none; }
+.sh-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── 내비 링크 언더라인 ───────────────────────── */
+.sh-navlink { position: relative; padding-bottom: 3px; }
+.sh-navlink::after {
+  content: ""; position: absolute; left: 0; right: 100%; bottom: 0;
+  height: 1.5px; background: #1a1917;
+  transition: right 0.25s ease;
+}
+.sh-navlink:hover::after { right: 0; }
+
+/* ── 장바구니 ────────────────────────────────── */
+.sh-pop { display: inline-flex; animation: shPop 0.35s ease; }
+.sh-drawer { animation: shDrawer 0.32s cubic-bezier(0.22, 0.61, 0.36, 1); }
+.sh-backdrop { animation: shFadeIn 0.25s ease; }
+.sh-toast { animation: shFadeUp 0.3s ease; }
+
+/* ── 히어로 플로팅 타일 / 결제 완료 체크 ───────── */
+.sh-float { animation: shFloat 5.5s ease-in-out infinite; }
+.sh-check { animation: shCheck 0.5s cubic-bezier(0.22, 0.61, 0.36, 1); }
+
+/* ── 수량 스테퍼/칩 호버 ──────────────────────── */
+.sh-chip { transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease; }
+.sh-chip:hover { transform: translateY(-1px); }
+
+/* ── 반응형 ──────────────────────────────────── */
+.sh-hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; }
+.sh-grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.sh-grid-cats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.sh-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.sh-checkout-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px; align-items: start; }
+.sh-footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+.sh-nav-center { display: flex; }
+
+@media (max-width: 960px) {
+  .sh-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sh-grid-cats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .sh-detail-grid, .sh-checkout-grid { grid-template-columns: 1fr; }
+  .sh-footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 760px) {
+  .sh-hero-grid { grid-template-columns: 1fr; }
+  .sh-hero-visual { display: none; }
+  .sh-nav-center { display: none; }
+}
+@media (max-width: 480px) {
+  .sh-grid-4 { grid-template-columns: 1fr; }
+  .sh-grid-cats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── 찜하기 하트 ─────────────────────────────── */
+@keyframes shHeart {
+  0% { transform: scale(0.6); }
+  45% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.sh-heart { transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
+.sh-heart:hover { transform: scale(1.1); }
+.sh-heartglyph { display: inline-block; animation: shHeart 0.3s ease; }
+
+/* ── 모션 최소화 환경 존중 ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .sh-fadeup, .sh-pop, .sh-drawer, .sh-backdrop, .sh-toast, .sh-float, .sh-check, .sh-heartglyph {
+    animation: none !important; opacity: 1 !important; transform: none !important;
+  }
+  .sh-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .sh-marquee-track { animation: none !important; }
+  .sh-card .sh-tile, .sh-card .sh-tile-emoji, .sh-card .sh-quick, .sh-btn, .sh-chip, .sh-navlink::after {
+    transition: none !important;
+  }
+}
