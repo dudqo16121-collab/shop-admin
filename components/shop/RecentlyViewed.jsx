@@ -1,8 +1,7 @@
 "use client";
 
-// ── 최근 본 상품: 상세 진입 시 기록, 스트립으로 노출 ─────────
 import { useEffect, useState } from "react";
-import { C, S } from "./theme";
+import { T, S } from "./theme";
 import Reveal from "./Reveal";
 import ProductCard from "./ProductCard";
 import { byId } from "../../lib/store-data";
@@ -41,7 +40,7 @@ export default function RecentlyViewed({ excludeId }) {
     <section style={{ marginTop: 88 }}>
       <Reveal>
         <div style={S.eyebrow}>Recently Viewed</div>
-        <h2 style={{ ...S.h2, margin: "6px 0 24px" }}>최근 본 상품</h2>
+        <h2 style={{ ...S.h2, margin: "6px 0 24px" }}>최근 본 제품</h2>
       </Reveal>
       <div className="sh-grid-4">
         {items.map((p, i) => (

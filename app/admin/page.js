@@ -1,3 +1,5 @@
+"use client";
+
 import EcommerceAdmin from "../../components/admin/EcommerceAdmin";
 
 export default function AdminPage() {
