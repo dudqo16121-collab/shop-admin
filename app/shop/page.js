@@ -22,7 +22,6 @@ const CAT_META = {
 const TABS = ["베스트셀러", "신상품", "할인"];
 const SALE_IDS = new Set([2, 9, 11]);
 const ORIGINAL_PRICES = { 2: 179000, 9: 259000, 11: 159000 };
-const [tabLoading, setTabLoading] = useState(false);
 // ── 히어로 코드 블록 애니메이션 ────────────────────────────
 const CODE_LINES = [
   { indent: 0, tokens: [{ t: "import", c: "#C084FC" }, { t: " { ", c: "#94A3B8" }, { t: "Button", c: "#38BDF8" }, { t: ", ", c: "#94A3B8" }, { t: "Card", c: "#38BDF8" }, { t: " } ", c: "#94A3B8" }, { t: "from", c: "#C084FC" }, { t: " '@shopadmin/ui'", c: "#86EFAC" }] },
@@ -170,7 +169,7 @@ function PackageCard({ name, version, weekly, color }) {
 
 export default function ShopHome() {
   const [tab, setTab] = useState("베스트셀러");
-
+  const [tabLoading, setTabLoading] = useState(false);
   const hero1 = byId(3);
   const hero2 = byId(1);
   const hero3 = byId(7);

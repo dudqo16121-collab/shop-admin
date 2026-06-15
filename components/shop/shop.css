@@ -304,6 +304,7 @@
   color: #64748B;
   transition: background 0.15s, color 0.15s;
   background: transparent; border: none;
+  white-space: nowrap;
 }
 .sh-nav-tab:hover { background: #1C1C28; color: #F8FAFC; }
 .sh-nav-tabs { display: flex; align-items: center; gap: 2px; flex: 1; justify-content: center; }
@@ -449,3 +450,6 @@
   .sh-mega, .sh-mega-item { animation: none !important; opacity: 1 !important; transform: none !important; }
   .sh-skeleton-wave { animation: none !important; }
 }
+/* ── 페이지 트랜지션 ─────────────────────────── */
+/* 트랜지션 중 레이아웃 시프트 방지 */
+main { min-height: 60vh; }

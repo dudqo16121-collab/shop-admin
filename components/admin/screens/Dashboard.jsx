@@ -5,9 +5,10 @@ import { C, styles } from "../theme";
 import { StatusBadge, Th, Td } from "../ui/common";
 import { downloadCSV } from "../csv";
 import CalendarWidget from "../widgets/CalendarWidget";
+import { ShopOrdersWidget } from "../widgets/ShopOrdersBadge";
 
 // ── 화면 1: 대시보드 ─────────────────────────────────────────
-export default function Dashboard() {
+export default function Dashboard({ onNavigate }) {
   // 실시간 현황 위젯
   const [realtime, setRealtime] = useState({
     sales: 2840000,
@@ -172,6 +173,7 @@ export default function Dashboard() {
       </div>
       {/* 캘린더 */}
       <CalendarWidget />
+      <ShopOrdersWidget onNavigate={onNavigate} />
     </>
   );
 }

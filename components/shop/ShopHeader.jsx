@@ -13,6 +13,7 @@ const CAT_EMOJI = { "UI Kit": "⬡", "템플릿": "⚡", "플러그인": "◎", 
 const NAV_ITEMS = [
   { label: "홈", href: "/shop/" },
   { label: "전체 상품", href: "/shop/products/" },
+  { label: "번들", href: "/shop/bundles/" },
   {
     label: "카테고리",
     mega: true,
@@ -26,7 +27,7 @@ const NAV_ITEMS = [
   { label: "찜 목록", href: "/shop/wishlist/" },
 ];
 
-export default function ShopHeader() {
+export default function ShopHeader({ onSearchOpen }) {
   const cart = useCart();
   const wish = useWishlist();
   const [scrolled, setScrolled] = useState(false);
@@ -129,6 +130,7 @@ const profileRef = useRef(null);
                       style={{
                         background: megaOpen ? "#1C1C28" : "transparent",
                         color: megaOpen ? T.text : "#64748B",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       {item.label}
@@ -205,7 +207,7 @@ const profileRef = useRef(null);
                   <Link
                     href={item.href}
                     className="sh-nav-tab"
-                    style={{ display: "block", textDecoration: "none" }}
+                    style={{ display: "block", textDecoration: "none", whiteSpace: "nowrap" }}
                   >
                     {item.label}
                   </Link>
@@ -215,18 +217,29 @@ const profileRef = useRef(null);
           </nav>
 
           {/* 검색바 */}
-          <div style={{
-            flex: 1, maxWidth: 260,
-            display: "flex", alignItems: "center", gap: 8,
-            height: 38, padding: "0 14px",
-            background: T.bgSubtle,
-            borderRadius: 10, border: `1px solid ${T.border}`,
-            fontSize: 13, color: T.textHint,
-            cursor: "text",
-          }}>
-            <span style={{ opacity: 0.5, fontSize: 13 }}>🔍</span>
-            <span style={{ fontFamily: S.mono, fontSize: 12 }}>상품 검색...</span>
-          </div>
+<div
+  onClick={onSearchOpen}
+  style={{
+    flex: 1, maxWidth: 200,
+    display: "flex", alignItems: "center", gap: 8,
+    height: 38, padding: "0 14px",
+    background: T.bgSubtle,
+    borderRadius: 10, border: `1px solid ${T.border}`,
+    fontSize: 13, color: T.textHint,
+    cursor: "pointer",
+    transition: "border-color 0.2s",
+  }}
+  onMouseEnter={e => e.currentTarget.style.borderColor = T.violet}
+  onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
+>
+  <span style={{ opacity: 0.5, fontSize: 13 }}>🔍</span>
+  <span style={{ fontFamily: S.mono, fontSize: 12, flex: 1 }}>검색...</span>
+  <span style={{
+    fontSize: 10, color: T.textHint, fontFamily: S.mono,
+    background: T.bgCard, border: `1px solid ${T.border}`,
+    padding: "2px 6px", borderRadius: 5, whiteSpace: "nowrap",
+  }}>⌘K</span>
+</div>
 
           {/* 우측 액션 */}
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
@@ -294,7 +307,8 @@ const profileRef = useRef(null);
         {/* 메뉴 항목 */}
         {[
           { icon: "◈", label: "마이페이지", href: "/shop/mypage/" },
-          { icon: "◈", label: "내 라이선스", href: "/shop/orders/" },
+          { icon: "◈", label: "내 라이선스", href: "/shop/licenses/" },
+          { icon: "🎫", label: "쿠폰 지갑", href: "/shop/coupons/" },
           { icon: "♡", label: "찜 목록", href: "/shop/wishlist/" },
           { icon: "🧾", label: "주문 내역", href: "/shop/orders/" },
           { icon: "⚙", label: "계정 설정", href: "/shop/settings/" },

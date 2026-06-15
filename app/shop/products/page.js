@@ -5,8 +5,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { T, S } from "../../../components/shop/theme";
 import Reveal from "../../../components/shop/Reveal";
 import ProductCard from "../../../components/shop/ProductCard";
-import { CATEGORIES, VISIBLE } from "../../../lib/store-data";
+import { CATEGORIES, fmtWon } from "../../../lib/store-data";
 import ProductCardSkeleton from "../../../components/shop/ProductCardSkeleton";
+import { useProducts } from "../../../hooks/useProducts";
 
 const SORTS = ["인기순", "최신순", "낮은 가격순", "높은 가격순", "평점순"];
 
@@ -18,6 +19,7 @@ function ProductsInner() {
   const [sort, setSort] = useState("인기순");
   const [hideSoldout, setHideSoldout] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { products } = useProducts();
 
   // URL 파라미터 → 필터 동기화 (카테고리 링크 클릭 시 즉시 반영)
   useEffect(() => {
@@ -37,17 +39,17 @@ function ProductsInner() {
   return () => clearTimeout(t);
 }, [searchParams]);
 
-  const filtered = useMemo(() => {
-    let list = VISIBLE.filter(
-      p => (cat === "전체" || p.cat === cat) && (!hideSoldout || p.stock > 0)
-    );
+const filtered = useMemo(() => {
+  let list = products.filter(p =>
+    (cat === "전체" || p.cat === cat) && (!hideSoldout || p.stock > 0)
+  );
     if (sort === "인기순")      list = [...list].sort((a, b) => b.sales - a.sales);
     if (sort === "최신순")      list = [...list].sort((a, b) => new Date(b.created) - new Date(a.created));
     if (sort === "낮은 가격순") list = [...list].sort((a, b) => a.price - b.price);
     if (sort === "높은 가격순") list = [...list].sort((a, b) => b.price - a.price);
     if (sort === "평점순")      list = [...list].sort((a, b) => b.rating - a.rating);
     return list;
-  }, [cat, sort, hideSoldout]);
+}, [products, cat, sort, hideSoldout]);
 
   const handleCatClick = (c) => {
     setCat(c);

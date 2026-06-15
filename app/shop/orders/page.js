@@ -104,6 +104,17 @@ export default function OrdersPage() {
                   {" · 배송비 무료"}
                 </span>
                 <span style={{ fontSize: 16, fontWeight: 800, color: T.violet }}>{fmtWon(o.total)}</span>
+                <Link
+  href={`/shop/review/${o.no}/`}
+  style={{
+    fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 7,
+    background: T.violetBg, border: `1px solid ${T.violet}40`,
+    color: T.violet, textDecoration: "none", fontFamily: S.mono,
+    display: "inline-flex", alignItems: "center", gap: 5,
+  }}
+>
+  ★ 리뷰 작성
+</Link>
               </div>
             </div>
           );

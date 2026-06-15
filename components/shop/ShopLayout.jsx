@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { T, S } from "./theme";
 import ShopHeader from "./ShopHeader";
 import ShopFooter from "./ShopFooter";
 import CartDrawer from "./CartDrawer";
+import SearchModal from "./SearchModal";
 import { useCart } from "../../lib/cart";
 
 function CartToast() {
@@ -41,6 +43,20 @@ function CartToast() {
 }
 
 export default function ShopLayout({ children }) {
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Ctrl+K / Cmd+K 단축키
+  useEffect(() => {
+    const fn = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", fn);
+    return () => window.removeEventListener("keydown", fn);
+  }, []);
+
   return (
     <div
       className="sh-root"
@@ -53,11 +69,14 @@ export default function ShopLayout({ children }) {
         lineHeight: 1.6,
       }}
     >
-      <ShopHeader />
+      <ShopHeader onSearchOpen={() => setSearchOpen(true)} />
       <main>{children}</main>
       <ShopFooter />
       <CartDrawer />
       <CartToast />
+      {searchOpen && (
+        <SearchModal onClose={() => setSearchOpen(false)} />
+      )}
     </div>
   );
 }

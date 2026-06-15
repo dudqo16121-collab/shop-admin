@@ -11,6 +11,7 @@ import { fmtWon, PRODUCTS } from "../../../lib/store-data";
 const TABS = [
   { id: "overview",  icon: "◈", label: "overview.ts" },
   { id: "licenses",  icon: "⬡", label: "licenses.ts" },
+  { id: "coupons", icon: "🎫", label: "coupons.ts" },
   { id: "points",    icon: "◎", label: "points.ts" },
   { id: "orders",    icon: "▣", label: "orders.ts" },
   { id: "activity",  icon: "◇", label: "activity.ts" },

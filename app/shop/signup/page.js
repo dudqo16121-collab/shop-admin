@@ -167,23 +167,24 @@ export default function SignupPage() {
     if (step === 0 && validateStep0()) setStep(1);
   };
 
-  const handleSubmit = () => {
-    if (!validateStep1()) return;
-    setLoading(true);
-    setTimeout(() => {
-      login({
-        id: `usr_${Date.now()}`,
-        name: form.name,
-        email: form.email,
-        avatar: form.name[0]?.toUpperCase() || "U",
-        plan: "Free",
-        joinedAt: new Date().toISOString().slice(0, 10),
-        role: form.role,
-      });
-      setStep(2);
-      setLoading(false);
-    }, 900);
-  };
+const handleSubmit = () => {
+  if (!validateStep1()) return;
+  setLoading(true);
+  setTimeout(() => {
+    login({
+      id: `usr_${Date.now()}`,
+      name: form.name,
+      email: form.email,
+      avatar: form.name[0]?.toUpperCase() || "U",
+      plan: "Free",
+      joinedAt: new Date().toISOString().slice(0, 10),
+      role: form.role,
+      emailVerified: false,  // ← 미인증 상태로 가입
+    });
+    setLoading(false);
+    setStep(2);  // 완료 화면으로
+  }, 900);
+};
 
   const ROLES = [
     { id: "frontend", label: "Frontend Dev", icon: "◈" },
@@ -311,10 +312,23 @@ export default function SignupPage() {
             <h2 style={{ fontSize: 26, fontWeight: 800, color: T.text, margin: "0 0 10px", letterSpacing: "-0.03em" }}>
               가입이 완료됐어요!
             </h2>
-            <p style={{ fontSize: 14, color: T.textSub, lineHeight: 1.75, marginBottom: 28 }}>
-              {form.name}님, 환영합니다.<br />
-              신규 가입 축하 포인트 5,000P가 지급됐습니다.
-            </p>
+<p style={{ fontSize: 14, color: T.textSub, lineHeight: 1.75, marginBottom: 10 }}>
+  {form.name}님, 환영합니다!<br />
+  가입이 완료됐어요.
+</p>
+{/* 이메일 인증 안내 배너 */}
+<div style={{
+  background: T.amberBg, border: `1px solid ${T.amber}40`,
+  borderRadius: 12, padding: "12px 16px", marginBottom: 22, textAlign: "left",
+}}>
+  <div style={{ fontSize: 12, fontWeight: 700, color: T.amber, marginBottom: 4 }}>
+    📧 이메일 인증이 필요해요
+  </div>
+  <div style={{ fontSize: 12, color: T.textSub, lineHeight: 1.6, fontFamily: S.mono }}>
+    // <span style={{ color: T.text }}>{form.email}</span>으로<br />
+    // 인증 메일을 발송했어요. 인증 후 +5,000P 지급됩니다.
+  </div>
+</div>
 
             {/* 완료 코드 블록 */}
             <div style={{
@@ -338,20 +352,27 @@ export default function SignupPage() {
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <button
-                onClick={() => router.push("/shop/")}
-                className="sh-btn"
-                style={{ ...S.btnPrimary, width: "100%", height: 50, borderRadius: 12, fontSize: 15, justifyContent: "center" }}
-              >
-                쇼핑 시작하기 →
-              </button>
-              <button
-                onClick={() => router.push("/shop/settings/")}
-                className="sh-btn"
-                style={{ ...S.btnGhost, width: "100%", height: 46, borderRadius: 12, fontSize: 14, justifyContent: "center" }}
-              >
-                프로필 설정하기
-              </button>
+{/* 이메일 인증 버튼 (메인 CTA) */}
+<button
+  onClick={() => router.push(`/shop/verify/?email=${encodeURIComponent(form.email)}`)}
+  className="sh-btn"
+  style={{ ...S.btnPrimary, width: "100%", height: 50, borderRadius: 12, fontSize: 15, justifyContent: "center" }}
+>
+  📧 이메일 인증하기 →
+</button>
+
+{/* 나중에 인증 (서브) */}
+<button
+  onClick={() => router.push("/shop/")}
+  style={{
+    width: "100%", height: 44, borderRadius: 12,
+    border: `1px solid ${T.border}`, background: "transparent",
+    color: T.textHint, fontSize: 13, cursor: "pointer",
+    fontFamily: S.mono,
+  }}
+>
+  // 나중에 인증하기
+</button>
             </div>
           </div>
         ) : (

@@ -5,6 +5,7 @@ import { T, S, CAT_TINT_V2 } from "./theme";
 import { NEW_IDS, fmtWon, getOptions } from "../../lib/store-data";
 import { useCart } from "../../lib/cart";
 import { useWishlist } from "../../lib/wishlist";
+import { useCompare } from "../../lib/compare";
 
 function Stars({ rating }) {
   const full = Math.floor(rating);
@@ -21,6 +22,8 @@ export default function ProductCard({ p, rank, originalPrice }) {
   const liked = wish.has(p.id);
   const soldout = p.stock === 0;
   const discountPct = originalPrice ? Math.round((1 - p.price / originalPrice) * 100) : null;
+const compare = useCompare();
+const inCompare = compare.has(p.id);
 
   const quickAdd = (e) => {
     e.preventDefault(); e.stopPropagation();
@@ -78,6 +81,24 @@ export default function ProductCard({ p, rank, originalPrice }) {
         >
           <span key={liked ? "on" : "off"} className="sh-heartglyph">{liked ? "♥" : "♡"}</span>
         </button>
+
+<button
+  onClick={(e) => { e.preventDefault(); e.stopPropagation(); compare.toggle(p.id); }}
+  className="sh-heart"
+  aria-label={inCompare ? "비교 제거" : "비교 추가"}
+  style={{
+    position: "absolute", top: 10, right: 44, zIndex: 3,
+    width: 30, height: 30, borderRadius: 8,
+    border: `1px solid ${inCompare ? T.violet : T.borderMid}`,
+    background: inCompare ? T.violetBg : "rgba(10,10,15,0.85)",
+    color: inCompare ? T.violet : T.textHint,
+    fontSize: 12, cursor: "pointer",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    fontFamily: S.mono, fontWeight: 700,
+  }}
+>
+  {inCompare ? "✓" : "⇄"}
+</button>
 
         {/* 심볼 */}
         <span

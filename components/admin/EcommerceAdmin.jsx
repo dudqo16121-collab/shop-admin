@@ -33,12 +33,15 @@ import SecurityModal from "./modals/SecurityModal";
 import LocaleModal from "./modals/LocaleModal";
 import OperationLogModal from "./modals/OperationLogModal";
 
+import { NewOrderBadge } from "./widgets/ShopOrdersBadge";
+
 // ── 네비게이션 메뉴 ─────────────────────────────────────────
 const NAV = [
   { section: "메인", items: [
     { id: "dashboard", label: "대시보드", icon: "▦" },
     { id: "analytics", label: "매출 분석", icon: "📊" },
-    { id: "orders", label: "주문 관리", icon: "🛒", badge: "12", badgeColor: "red" },
+    { id: "orders", label: "주문 관리", icon: "🛒",
+  badge: <NewOrderBadge />, badgeColor: "red" },
     { id: "shipping", label: "배송 현황", icon: "🚚", badge: "3", badgeColor: "blue" },
   ]},
   { section: "상품", items: [
